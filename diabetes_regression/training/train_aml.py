@@ -147,8 +147,8 @@ def main():
     x_train = np.load(mount_context.mount_point + '/x_train.npy')
     mount_context.stop()  # this will unmount the file streams
     print(len(x_train))
-    #with dataset2.mount() as mount_context:
-    
+    # with dataset2.mount() as mount_context:
+
     # Link dataset to the step run so it is trackable in the UI
     run.input_datasets['training_data'] = dataset
     run.parent.tag("dataset_id", value=dataset.id)
