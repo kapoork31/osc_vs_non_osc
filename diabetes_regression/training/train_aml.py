@@ -139,6 +139,12 @@ def main():
         print(e)
         raise Exception(e)
 
+    dataset2 = Dataset.get_by_name(run.experiment.workspace, 'mnist_ds')
+    print(dataset2.name)
+    mount_context = dataset2.mount()
+    mount_context.start()  # this will mount the file streams
+    mount_context.stop()  # this will unmount the file streams
+
     # Link dataset to the step run so it is trackable in the UI
     run.input_datasets['training_data'] = dataset
     run.parent.tag("dataset_id", value=dataset.id)
