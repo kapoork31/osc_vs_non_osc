@@ -30,6 +30,7 @@ import argparse
 import joblib
 import json
 from train import split_data, train_model, get_model_metrics
+import numpy as np
 
 
 def register_dataset(
@@ -121,6 +122,15 @@ def main():
         e = ("No dataset provided")
         print(e)
         raise Exception(e)
+
+    dataset2 = Dataset.get_by_name(run.experiment.workspace, 'mnist_ds')
+    print(dataset2.name)
+    mount_context = dataset2.mount()
+    mount_context.start()  # this will mount the file streams
+    x_train = np.load(mount_context.mount_point + '/x_train.npy')
+    mount_context.stop()  # this will unmount the file streams
+    print(len(x_train))
+    # with dataset2.mount() as mount_context:
 
     # Link dataset to the step run so it is trackable in the UI
     run.input_datasets['training_data'] = dataset
