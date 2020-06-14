@@ -28,8 +28,7 @@ from azureml.core import Dataset, Datastore, Workspace
 import os
 import argparse
 import joblib
-import json
-from train import split_data, train_model, get_model_metrics
+from train import train_model, get_model_metrics
 import numpy as np
 
 
@@ -146,10 +145,10 @@ def main():
     mount_context.stop()  # this will unmount the file streams
 
     # Train the model
-    model = train_model(x_train,y_train,x_test,y_test)
+    model = train_model(x_train, y_train, x_test, y_test)
 
     # Evaluate and log the metrics returned from the train function
-    metrics = get_model_metrics(model, x_test,y_test)
+    metrics = get_model_metrics(model, x_test, y_test)
     run.log("test loss", metrics[0])
     run.log("test accuracy", metrics[1])
 

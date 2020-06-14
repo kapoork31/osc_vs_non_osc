@@ -1,5 +1,5 @@
 from azureml.pipeline.core.graph import PipelineParameter
-from azureml.pipeline.steps import PythonScriptStep, EstimatorStep
+from azureml.pipeline.steps import EstimatorStep
 from azureml.pipeline.core import Pipeline, PipelineData
 from azureml.core import Workspace, Dataset, Datastore
 from azureml.core.runconfig import RunConfiguration
@@ -93,13 +93,15 @@ def main():
         'pipeline_data',
         datastore=aml_workspace.get_default_datastore())
 
-    est = TensorFlow(source_directory=e.sources_directory_train,
+    est = TensorFlow(
+        source_directory=e.sources_directory_train,
         entry_script=e.train_script_path,
-        compute_target=compute_target,
+        compute_target=aml_compute,
         framework_version='1.13',
         pip_packages=['keras'])
 
-    train_step = EstimatorStep(name="Train Model",
+    train_step = EstimatorStep(
+        name="Train Model",
         estimator=est,
         runconfig_pipeline_params=None,
         outputs=[pipeline_data],
