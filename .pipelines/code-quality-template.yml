@@ -1,5 +1,11 @@
 # Pipeline template to run linting, unit tests with code coverage, and publish the results.
 steps:
+- script: python -m pip install --upgrade --user pip
+  displayName: 'upgrade pip'
+
+- script: python -m pip install --upgrade --user tensorflow keras
+  displayName: 'Install tools'
+
 - script: |   
    flake8 --output-file=lint-testresults.xml --format junit-xml
   displayName: 'Run lint tests'
