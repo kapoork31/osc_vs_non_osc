@@ -83,7 +83,7 @@ parser.add_argument(
     "--model_name",
     type=str,
     help="Name of the Model",
-    default="mnist_model.pkl",
+    default="mnist_model.h5",
 )
 
 parser.add_argument(

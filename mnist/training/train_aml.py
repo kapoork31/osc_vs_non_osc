@@ -27,7 +27,6 @@ from azureml.core.run import Run
 from azureml.core import Dataset, Datastore, Workspace
 import os
 import argparse
-import joblib
 from train import train_model, get_model_metrics
 import numpy as np
 
@@ -55,7 +54,7 @@ def main():
         "--model_name",
         type=str,
         help="Name of the Model",
-        default="mnist_model.pkl",
+        default="mnist_model.h5",
     )
 
     parser.add_argument(
@@ -155,12 +154,12 @@ def main():
     # Pass model file to next step
     os.makedirs(step_output_path, exist_ok=True)
     model_output_path = os.path.join(step_output_path, model_name)
-    joblib.dump(value=model, filename=model_output_path)
+    model.save(model_output_path)
 
     # Also upload model file to run outputs for history
     os.makedirs('outputs', exist_ok=True)
     output_path = os.path.join('outputs', model_name)
-    joblib.dump(value=model, filename=output_path)
+    model.save(output_path)
 
     run.tag("run_type", value="train")
     print(f"tags now present for run: {run.tags}")

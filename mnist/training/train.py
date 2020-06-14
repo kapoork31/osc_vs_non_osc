@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn.externals import joblib
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
 
@@ -58,8 +57,8 @@ def main():
     metrics = get_model_metrics(model, x_test, y_test)
     print(metrics)
     # Save Model
-    model_name = "mnist_model.pkl"
-    joblib.dump(value=model, filename=model_name)
+    model_name = "mnist_model.h5"
+    model.save(model_name)
 
 
 if __name__ == '__main__':

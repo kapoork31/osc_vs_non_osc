@@ -31,7 +31,7 @@ variables:
   - name: TRAINING_PIPELINE_NAME
     value: "mnist-Training-Pipeline"
   - name: MODEL_NAME
-    value: mnist_model.pkl
+    value: mnist_model.h5
 
   # AML Compute Cluster Config
   - name: AML_ENV_NAME
