@@ -113,6 +113,7 @@ def main():
             "--caller_run_id", caller_run_id_param,
             "--dataset_name", dataset_name,
         ],
+        compute_target=aml_compute,
         allow_reuse=True,
     )
 
