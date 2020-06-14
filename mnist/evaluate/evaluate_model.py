@@ -102,6 +102,7 @@ model_name = args.model_name
 metric_eval = "test loss"
 new_model_loss = run.parent.get_metrics()
 print(new_model_loss)
+print(new_model_loss.get(metric_eval))
 allow_run_cancel = args.allow_run_cancel
 # Parameterize the matrices on which the models should be compared
 # Add golden data set on which all the model performance can be evaluated

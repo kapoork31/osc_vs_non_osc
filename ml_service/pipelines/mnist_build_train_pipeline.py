@@ -158,6 +158,7 @@ def main():
     #    register_step.run_after(train_step)
     #    steps = [train_step, register_step]
 
+    evaluate_step.run_after(train_step)
     steps = [train_step, evaluate_step]
     train_pipeline = Pipeline(workspace=aml_workspace, steps=steps)
     train_pipeline._set_experiment_name
