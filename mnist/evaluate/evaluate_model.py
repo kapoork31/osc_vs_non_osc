@@ -98,11 +98,14 @@ if (args.run_id is not None):
     run_id = args.run_id
 if (run_id == 'amlcompute'):
     run_id = run.parent.id
+print(run_id)
 model_name = args.model_name
 metric_eval = "test loss"
 new_model_loss = run.parent.get_metrics()
 print(new_model_loss)
 print(new_model_loss.get(metric_eval))
+print(run.id)
+print(run.parent.id)
 allow_run_cancel = args.allow_run_cancel
 # Parameterize the matrices on which the models should be compared
 # Add golden data set on which all the model performance can be evaluated
