@@ -150,6 +150,8 @@ def main():
     metrics = get_model_metrics(model, x_test, y_test)
     run.log("test loss", metrics[0])
     run.log("test accuracy", metrics[1])
+    run.parent.log("test loss", metrics[0])
+    run.parent.log("test accuracy", metrics[1])
 
     # Pass model file to next step
     os.makedirs(step_output_path, exist_ok=True)
