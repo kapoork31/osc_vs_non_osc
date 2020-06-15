@@ -114,7 +114,7 @@ def main():
             "--dataset_name", dataset_name,
         ],
         compute_target=aml_compute,
-        allow_reuse=True,
+        allow_reuse=False,
     )
 
     print("Step Train created")
@@ -133,6 +133,25 @@ def main():
     )
     print("Step Evaluate created")
 
+    regest = TensorFlow(
+        source_directory=e.sources_directory_train,
+        entry_script=e.register_script_path,
+        compute_target=aml_compute,
+        framework_version='1.13',
+        pip_packages=['keras'])
+
+    register_step = EstimatorStep(
+        name="Register Model",
+        estimator=regest,
+        runconfig_pipeline_params=None,
+        inputs=[pipeline_data],
+        estimator_entry_script_arguments=[
+            "--model_name", model_name_param,
+            "--step_input", pipeline_data,
+        ],
+        compute_target=aml_compute,
+        allow_reuse=False,
+    )
     # register_step = PythonScriptStep(
     #    name="Register Model ",
     #    script_name=e.register_script_path,
@@ -151,15 +170,12 @@ def main():
     if ((e.run_evaluation).lower() == 'true'):
         print("Include evaluation step before register step.")
         evaluate_step.run_after(train_step)
-        # register_step.run_after(evaluate_step)
-        steps = [train_step, evaluate_step]
-    # else:
-    #    print("Exclude evaluation step and directly run register step.")
-    #    register_step.run_after(train_step)
-    #    steps = [train_step, register_step]
-
-    # evaluate_step.run_after(train_step)
-    # steps = [train_step, evaluate_step]
+        register_step.run_after(evaluate_step)
+        steps = [train_step, evaluate_step, register_step]
+    else:
+        print("Exclude evaluation step and directly run register step.")
+        register_step.run_after(train_step)
+        steps = [train_step, register_step]
 
     train_pipeline = Pipeline(workspace=aml_workspace, steps=steps)
     train_pipeline._set_experiment_name

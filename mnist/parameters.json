@@ -9,7 +9,7 @@
     },
     "registration":
     {
-        "tags": ["mse"]
+        "tags": ["test loss"]
     },
     "scoring":
     {

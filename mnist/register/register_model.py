@@ -28,9 +28,9 @@ import os
 import sys
 import argparse
 import traceback
-import joblib
 from azureml.core import Run, Experiment, Workspace, Dataset
 from azureml.core.model import Model as AMLModel
+from keras.models import load_model
 
 
 def main():
@@ -109,7 +109,7 @@ def main():
     # load the model
     print("Loading model from " + model_path)
     model_file = os.path.join(model_path, model_name)
-    model = joblib.load(model_file)
+    model = load_model(model_file)
     parent_tags = run.parent.get_tags()
     try:
         build_id = parent_tags["BuildId"]
