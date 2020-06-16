@@ -30,10 +30,9 @@ dependencies:
       - azureml-defaults==1.6.*
 
       # Training deps
-      - scikit-learn
+      - tenserflow
+      - keras
 
       # Scoring deps
       - inference-schema[numpy-support]
 
-      # MLOps with R
-      - azure-storage-blob

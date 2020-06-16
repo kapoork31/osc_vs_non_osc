@@ -7,7 +7,6 @@ dependencies:
   # dependencies with versions aligned with conda_dependencies.yml.
   - numpy=1.18.*
   - pandas=1.0.*
-  - scikit-learn=0.22.*
     # dependencies for MLOps with R.
   - r=3.6.0
   - r-essentials=3.6.0

@@ -152,19 +152,7 @@ def main():
         compute_target=aml_compute,
         allow_reuse=False,
     )
-    # register_step = PythonScriptStep(
-    #    name="Register Model ",
-    #    script_name=e.register_script_path,
-    #    compute_target=aml_compute,
-    #    source_directory=e.sources_directory_train,
-    #    inputs=[pipeline_data],
-    #    arguments=[
-    #        "--model_name", model_name_param,
-    #        "--step_input", pipeline_data,
-    #    ],
-    #    runconfig=run_config,
-    #    allow_reuse=False,
-    # )
+
     print("Step Register created")
     # Check run_evaluation flag to include or exclude evaluation step.
     if ((e.run_evaluation).lower() == 'true'):
