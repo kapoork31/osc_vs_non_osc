@@ -30,7 +30,7 @@ dependencies:
       - azureml-defaults==1.6.*
 
       # Training deps
-      - tenserflow
+      - tensorflow
       - keras
 
       # Scoring deps
