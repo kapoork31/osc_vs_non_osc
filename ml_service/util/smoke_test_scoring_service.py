@@ -1,16 +1,20 @@
 import argparse
 import requests
 import time
+import json
+import numpy as np
 from azureml.core import Workspace
 from azureml.core.webservice import AksWebservice, AciWebservice
 from ml_service.util.env_variables import Env
 import secrets
 
+b = np.zeros([28, 28, 1], dtype=float)
+b = np.expand_dims(b, axis=0)
+x_train = np.repeat(b, 2)
+input_sample = np.reshape(x_train, (2, 28, 28, 1))
 
-input = {"data": [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                  [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]]}
-output_len = 2
-
+test_samples = json.dumps({"data": input_sample.tolist()})
+input = bytes(test_samples, encoding='utf8')
 
 def call_web_service(e, service_type, service_name):
     aml_workspace = Workspace.get(
@@ -83,7 +87,8 @@ def main():
     print("Verifying service output")
 
     assert "result" in output
-    assert len(output["result"]) == output_len
+    print(len(output["result"]))
+    #assert len(output["result"]) == output_len
     print("Smoke test successful.")
 
 
