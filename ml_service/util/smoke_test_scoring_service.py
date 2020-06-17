@@ -16,6 +16,7 @@ input_sample = np.reshape(x_train, (2, 28, 28, 1))
 test_samples = json.dumps({"data": input_sample.tolist()})
 input = bytes(test_samples, encoding='utf8')
 
+
 def call_web_service(e, service_type, service_name):
     aml_workspace = Workspace.get(
         name=e.workspace_name,
@@ -88,7 +89,7 @@ def main():
 
     assert "result" in output
     print(len(output["result"]))
-    #assert len(output["result"]) == output_len
+    # assert len(output["result"]) == output_len
     print("Smoke test successful.")
 
 
