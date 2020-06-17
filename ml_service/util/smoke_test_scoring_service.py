@@ -11,7 +11,8 @@ b = np.zeros([28, 28, 1], dtype=float)
 b = np.expand_dims(b, axis=0)
 x_train = np.repeat(b, 2)
 input_sample = np.reshape(x_train, (2, 28, 28, 1))
-input = input_sample
+input = {"data": input_sample.tolist()}
+# input = input_sample
 # test_samples = json.dumps({"data": input_sample.tolist()})
 # input = bytes(test_samples, encoding='utf8')
 
