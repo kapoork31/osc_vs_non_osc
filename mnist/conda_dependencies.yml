@@ -31,7 +31,6 @@ dependencies:
 
       # Training deps
       - tensorflow
-      - keras
 
       # Scoring deps
       - inference-schema[numpy-support]

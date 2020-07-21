@@ -27,7 +27,7 @@ import json
 import os
 import numpy as np
 from azureml.core.model import Model
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 
 
 def init():

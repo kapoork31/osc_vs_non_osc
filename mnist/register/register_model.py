@@ -30,7 +30,7 @@ import argparse
 import traceback
 from azureml.core import Run, Experiment, Workspace, Dataset
 from azureml.core.model import Model as AMLModel
-from keras.models import load_model
+from tensorflow.keras.models import load_model
 
 
 def main():

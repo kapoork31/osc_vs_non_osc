@@ -97,8 +97,8 @@ def main():
         source_directory=e.sources_directory_train,
         entry_script=e.train_script_path,
         compute_target=aml_compute,
-        framework_version='1.13',
-        pip_packages=['keras'])
+        framework_version='2.0',
+        pip_packages=['matplotlib','scikit-learn','azureml-dataprep[pandas,fuse]'])
 
     train_step = EstimatorStep(
         name="Train Model",
@@ -137,8 +137,7 @@ def main():
         source_directory=e.sources_directory_train,
         entry_script=e.register_script_path,
         compute_target=aml_compute,
-        framework_version='1.13',
-        pip_packages=['keras'])
+        framework_version='2.0',
 
     register_step = EstimatorStep(
         name="Register Model",
