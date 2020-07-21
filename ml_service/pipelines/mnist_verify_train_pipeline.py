@@ -4,6 +4,7 @@ import os
 from azureml.core import Run, Experiment, Workspace
 from ml_service.util.env_variables import Env
 from mnist.util.model_helper import get_latest_model
+from azureml.pipeline.core import PublishedPipeline
 
 
 def main():
@@ -33,6 +34,18 @@ def main():
 
     e = Env()
 
+    aml_workspace = Workspace.get(
+        name=e.workspace_name,
+        subscription_id=e.subscription_id,
+        resource_group=e.resource_group
+    )
+
+    published = PublishedPipeline.list(
+        aml_workspace,
+        active_only=True,
+        _service_endpoint=None
+    )
+
     parser = argparse.ArgumentParser("register")
     parser.add_argument(
         "--build_id",
@@ -57,6 +70,12 @@ def main():
             model_name, tag_name, build_id, exp.workspace)
         if (model is not None):
             print("Model was registered for this build.")
+            if(len(published) > 1):
+                for p in published:
+                    if(p.version != build_id):
+                        p.disable()
+                        # disable any active pipelines
+
         if (model is None):
             print("Model was not registered for this run.")
             sys.exit(1)
