@@ -1,6 +1,7 @@
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout
+from tensorflow.keras.layers import Dense, Conv2D, Flatten
+from tensorflow.keras.layers import MaxPooling2D, Dropout
 
 
 def train_model(x_train, y_train, x_test, y_test):
