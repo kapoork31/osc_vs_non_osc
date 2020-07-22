@@ -125,7 +125,7 @@ def main():
     run.input_datasets['training_data'] = dataset
     run.parent.tag("dataset_id", value=dataset.id)
 
-    dataset2 = Dataset.get_by_name(run.experiment.workspace, 'mnist_ds')
+    dataset2 = Dataset.get_by_name(run.experiment.workspace, 'dataset_name')
     mount_context = dataset2.mount()
     mount_context.start()  # this will mount the file streams
     x_train = np.load(mount_context.mount_point + '/x_train.npy')
