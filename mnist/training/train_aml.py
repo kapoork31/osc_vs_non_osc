@@ -187,6 +187,8 @@ def main():
                                               )
         autoencoder.save(autencoder_output_path)
         print('autencoder saved')
+    else:
+        print('autencoder model already exists')
 
     # Also upload model file to run outputs for history
     os.makedirs('outputs', exist_ok=True)

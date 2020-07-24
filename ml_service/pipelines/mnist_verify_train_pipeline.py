@@ -72,7 +72,7 @@ def main():
             print("Model was registered for this build.")
             if(len(published) > 1):
                 for p in published:
-                    if(p.name == e.pipeline_name & p.version != build_id):
+                    if(p.name == e.pipeline_name and p.version != build_id):
                         p.disable()
                         # disable any active pipelines with same name
 

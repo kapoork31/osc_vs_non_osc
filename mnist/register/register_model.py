@@ -209,7 +209,7 @@ def main():
                 build_id,
                 build_uri)
     else:
-        print("autoencoder not found. already exists.")
+        print("autoencoder not found. model already exists.")
 
 
 def model_already_registered(model_name, exp, run_id):
