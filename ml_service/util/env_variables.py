@@ -35,6 +35,7 @@ class Env:
     register_script_path: Optional[str] = os.environ.get(
         "REGISTER_SCRIPT_PATH")
     model_name: Optional[str] = os.environ.get("MODEL_NAME")
+    autoencoder_name: Optional[str] = os.environ.get("AUTOENCODER_NAME")
     experiment_name: Optional[str] = os.environ.get("EXPERIMENT_NAME")
     model_version: Optional[str] = os.environ.get('MODEL_VERSION')
     image_name: Optional[str] = os.environ.get('IMAGE_NAME')

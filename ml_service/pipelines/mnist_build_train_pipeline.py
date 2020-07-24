@@ -45,6 +45,8 @@ def main():
 
     model_name_param = PipelineParameter(
         name="model_name", default_value=e.model_name)
+    autoencoder_name_param = PipelineParameter(
+        name="autoencoder_name", default_value=e.autoencoder_name)
     dataset_version_param = PipelineParameter(
         name="dataset_version", default_value=e.dataset_version)
     data_file_path_param = PipelineParameter(
@@ -110,6 +112,7 @@ def main():
         outputs=[pipeline_data],
         estimator_entry_script_arguments=[
             "--model_name", model_name_param,
+            "--autoencoder_name", autoencoder_name_param,
             "--step_output", pipeline_data,
             "--dataset_version", dataset_version_param,
             "--data_file_path", data_file_path_param,

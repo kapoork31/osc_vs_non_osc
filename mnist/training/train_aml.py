@@ -28,7 +28,9 @@ from azureml.core import Dataset, Datastore, Workspace
 import os
 import argparse
 from train import train_model, get_model_metrics
+from train_data_drift import train_autoencoder, autoencoder_get_model_metrics
 import numpy as np
+from util.model_helper import get_latest_model
 
 
 def register_dataset(
@@ -55,6 +57,12 @@ def main():
         type=str,
         help="Name of the Model",
         default="mnist_model.h5",
+    )
+    parser.add_argument(
+        "--autoencoder_name",
+        type=str,
+        help="Name of the autoencoder Model",
+        default="data_drift_model.h5",
     )
 
     parser.add_argument(
@@ -93,6 +101,7 @@ def main():
     args = parser.parse_args()
 
     print("Argument [model_name]: %s" % args.model_name)
+    print("Argument [autoencoder_name]: %s" % args.autoencoder_name)
     print("Argument [step_output]: %s" % args.step_output)
     print("Argument [dataset_version]: %s" % args.dataset_version)
     print("Argument [data_file_path]: %s" % args.data_file_path)
@@ -100,12 +109,24 @@ def main():
     print("Argument [dataset_name]: %s" % args.dataset_name)
 
     model_name = args.model_name
+    autoencoder_name = args.autoencoder_name
     step_output_path = args.step_output
     dataset_version = args.dataset_version
     data_file_path = args.data_file_path
     dataset_name = args.dataset_name
 
     run = Run.get_context()
+
+    exp = run.experiment
+    ws = run.experiment.workspace
+    tag_name = 'experiment_name'
+    autoencoder_exits = False
+
+    autoencoder = model = get_latest_model(
+        autoencoder_name, tag_name, exp.name, ws)
+
+    if (autoencoder is not None):
+        autoencoder_exits = True
 
     # Get the dataset
     if (dataset_name):
@@ -148,6 +169,24 @@ def main():
     os.makedirs(step_output_path, exist_ok=True)
     model_output_path = os.path.join(step_output_path, model_name)
     model.save(model_output_path)
+
+    if(not autoencoder_exits):
+
+        autoencoder_and_history = train_autoencoder(x_train, x_train)
+        autoencoder = autoencoder_and_history[0]
+        history = autoencoder_and_history[1]
+        test_loss = autoencoder_get_model_metrics(autoencoder, history, x_test)
+
+        run.log('autoencoder training loss', test_loss[0])
+        run.log('autoencoder test loss', test_loss[1])
+        run.parent.log('autoencoder training loss', test_loss[0])
+        run.parent.log('autoencoder test loss', test_loss[1])
+
+        autencoder_output_path = os.path.join(step_output_path,
+                                              autoencoder_name
+                                              )
+        autoencoder.save(autencoder_output_path)
+        print('autencoder saved')
 
     # Also upload model file to run outputs for history
     os.makedirs('outputs', exist_ok=True)
