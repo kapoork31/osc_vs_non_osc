@@ -32,6 +32,8 @@ variables:
     value: "mnist-Training-Pipeline"
   - name: MODEL_NAME
     value: mnist_model.h5
+  - name: AUTOENCODER_NAME
+    value: data_drift_model.h5
 
   # AML Compute Cluster Config
   - name: AML_ENV_NAME
