@@ -79,6 +79,13 @@ def main():
         help=("input from previous steps")
     )
 
+    parser.add_argument(
+        "--autoencoder_name",
+        type=str,
+        help="Name of the autoencoder Model",
+        default="data_drift_model.h5",
+    )
+
     args = parser.parse_args()
     if (args.run_id is not None):
         run_id = args.run_id
@@ -86,6 +93,7 @@ def main():
         run_id = run.parent.id
     model_name = args.model_name
     model_path = args.step_input
+    autoencoder_name = args.autoencoder_name
 
     print("Getting registration parameters")
 
@@ -94,9 +102,11 @@ def main():
         pars = json.load(f)
     try:
         register_args = pars["registration"]
+        reconstruction_args = pars["reconstruction"]
     except KeyError:
         print("Could not load registration values from file")
         register_args = {"tags": []}
+        reconstruction_args = {"tags": []}
 
     model_tags = {}
     for tag in register_args["tags"]:
@@ -106,11 +116,20 @@ def main():
         except KeyError:
             print(f"Could not find {tag} metric on parent run.")
 
+    autoencoder_tags = {}
+    for tag in reconstruction_args["tags"]:
+        try:
+            mtag = run.parent.get_metrics()[tag]
+            autoencoder_tags[tag] = mtag
+        except KeyError:
+            print(f"Could not find {tag} metric on parent run.")
+
     # load the model
     print("Loading model from " + model_path)
     model_file = os.path.join(model_path, model_name)
     model = load_model(model_file)
     parent_tags = run.parent.get_tags()
+
     try:
         build_id = parent_tags["BuildId"]
     except KeyError:
@@ -156,6 +175,41 @@ def main():
     else:
         print("Model not found. Skipping model registration.")
         sys.exit(0)
+
+    autoencoder_file = os.path.join(model_path, autoencoder_name)
+    autoencoder = load_model(autoencoder_file)
+
+    if(autoencoder is not None):
+        dataset_id = parent_tags["dataset_id"]
+        if (build_id is None):
+            register_aml_model(
+                autoencoder_file,
+                autoencoder_name,
+                autoencoder_tags,
+                exp,
+                run_id,
+                dataset_id)
+        elif (build_uri is None):
+            register_aml_model(
+                autoencoder_file,
+                autoencoder_name,
+                autoencoder_tags,
+                exp,
+                run_id,
+                dataset_id,
+                build_id)
+        else:
+            register_aml_model(
+                autoencoder_file,
+                autoencoder_name,
+                autoencoder_tags,
+                exp,
+                run_id,
+                dataset_id,
+                build_id,
+                build_uri)
+    else:
+        print("autoencoder not found. already exists.")
 
 
 def model_already_registered(model_name, exp, run_id):

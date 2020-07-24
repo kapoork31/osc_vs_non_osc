@@ -153,6 +153,7 @@ def main():
         estimator_entry_script_arguments=[
             "--model_name", model_name_param,
             "--step_input", pipeline_data,
+            "--autoencoder_name", autoencoder_name_param,
         ],
         compute_target=aml_compute,
         allow_reuse=False,

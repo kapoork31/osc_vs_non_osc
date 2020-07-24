@@ -11,6 +11,10 @@
     {
         "tags": ["test loss"]
     },
+    "reconstruction":
+    {
+        "tags": ["autoencoder test loss"]
+    },
     "scoring":
     {
         
