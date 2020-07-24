@@ -31,6 +31,7 @@ import traceback
 from azureml.core import Run, Experiment, Workspace, Dataset
 from azureml.core.model import Model as AMLModel
 from tensorflow.keras.models import load_model
+from util.model_helper import get_latest_model
 
 
 def main():
@@ -94,6 +95,9 @@ def main():
     model_name = args.model_name
     model_path = args.step_input
     autoencoder_name = args.autoencoder_name
+
+    autoencoder = get_latest_model(
+        autoencoder_name, exp.name, ws)
 
     print("Getting registration parameters")
 
@@ -176,10 +180,8 @@ def main():
         print("Model not found. Skipping model registration.")
         sys.exit(0)
 
-    autoencoder_file = os.path.join(model_path, autoencoder_name)
-    autoencoder = load_model(autoencoder_file)
-
-    if(autoencoder is not None):
+    if (autoencoder is None):
+        autoencoder_file = os.path.join(model_path, autoencoder_name)
         dataset_id = parent_tags["dataset_id"]
         if (build_id is None):
             register_aml_model(

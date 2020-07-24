@@ -120,13 +120,9 @@ def main():
     exp = run.experiment
     ws = run.experiment.workspace
     tag_name = 'experiment_name'
-    autoencoder_exits = False
 
-    autoencoder = model = get_latest_model(
+    autoencoder = get_latest_model(
         autoencoder_name, tag_name, exp.name, ws)
-
-    if (autoencoder is not None):
-        autoencoder_exits = True
 
     # Get the dataset
     if (dataset_name):
@@ -170,7 +166,7 @@ def main():
     model_output_path = os.path.join(step_output_path, model_name)
     model.save(model_output_path)
 
-    if(not autoencoder_exits):
+    if (autoencoder is None):
 
         autoencoder_and_history = train_autoencoder(x_train, x_train)
         autoencoder = autoencoder_and_history[0]
