@@ -96,8 +96,10 @@ def main():
     model_path = args.step_input
     autoencoder_name = args.autoencoder_name
 
+    tag_name = 'experiment_name'
+
     autoencoder = get_latest_model(
-        autoencoder_name, exp.name, ws)
+        autoencoder_name, tag_name, exp.name, ws)
 
     print("Getting registration parameters")
 
