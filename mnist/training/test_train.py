@@ -44,7 +44,7 @@ def test_train_autoencoder():
     x_train = np.reshape(x_train, (92, 28, 28, 1))
     autoencoder_and_history = train_autoencoder(x_train, x_train)
     history = autoencoder_and_history[1]
-    assert history.history['val_loss'][-1] > 1
+    assert history.history['val_loss'][-1] < history.history['val_loss'][0]
 
 
 def test_autoencoder_get_model_metrics():
