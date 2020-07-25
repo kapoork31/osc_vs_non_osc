@@ -1,7 +1,7 @@
 import numpy as np
 from mnist.training.train import train_model, get_model_metrics
-from mnist.train_data_drift import train_autoencoder
-from mnist.train_data_drift import autoencoder_get_model_metrics
+from mnist.training.train_data_drift import train_autoencoder
+from mnist.training.train_data_drift import autoencoder_get_model_metrics
 
 
 def test_train_model():
