@@ -58,4 +58,3 @@ def test_autoencoder_get_model_metrics():
     history = autoencoder_and_history[1]
     test_loss = autoencoder_get_model_metrics(autoencoder, history, x_test)
     assert test_loss[1] > 0
-    
