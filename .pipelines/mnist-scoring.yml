@@ -1,4 +1,21 @@
-# Pipeline template that attempts to get the latest model version and adds it to the environment for subsequent tasks to use.
+# Pipeline to run basic code quality tests as part of pull requests to the master branch.
+
+resources:
+  containers:
+  - container: mlops
+    image: mcr.microsoft.com/mlops/python:latest
+
+trigger: none
+pr: none
+
+
+variables:
+- template: mnist-variables-template.yml
+- group: devopsforai-aml-vg
+
+pool:
+  vmImage: ubuntu-latest
+
 - job: "Training_Run_Report"
   displayName: "Determine if evaluation succeeded and new model is registered"
   container: mlops
