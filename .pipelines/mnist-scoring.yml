@@ -16,18 +16,22 @@ variables:
 pool:
   vmImage: ubuntu-latest
 
-- job: "Training_Run_Report"
-  displayName: "Determine if evaluation succeeded and new model is registered"
-  container: mlops
-  timeoutInMinutes: 0
-  steps:
-  - task: AzureCLI@1
-    inputs:
-      azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
-      scriptLocation: inlineScript
-      inlineScript: |
-        set -e # fail on error
-        export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-        python -m ml_service.pipelines.test_pipeline.py --build_id $(modelbuildid) --output_model_version_file "model_version.txt"
-    name: 'getversion'
+stages:
+- stage: 'Model_scoring'
+  displayName: 'Model scoring'
+  jobs:
+  - job: "Training_Run_Report"
     displayName: "Determine if evaluation succeeded and new model is registered"
+    container: mlops
+    timeoutInMinutes: 0
+    steps:
+    - task: AzureCLI@1
+      inputs:
+        azureSubscription: '$(WORKSPACE_SVC_CONNECTION)'
+        scriptLocation: inlineScript
+        inlineScript: |
+          set -e # fail on error
+          export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+          python -m ml_service.pipelines.test_pipeline.py --build_id $(modelbuildid) --output_model_version_file "model_version.txt"
+      name: 'getversion'
+      displayName: "Determine if evaluation succeeded and new model is registered"
