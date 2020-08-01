@@ -32,6 +32,6 @@ stages:
         inlineScript: |
           set -e # fail on error
           export SUBSCRIPTION_ID=$(az account show --query id -o tsv)
-          python -m ml_service.pipelines.test_pipeline.py --build_id $(modelbuildid) --output_model_version_file "model_version.txt"
-      name: 'getversion'
-      displayName: "Determine if evaluation succeeded and new model is registered"
+          python -m ml_service.pipelines.test_pipeline.py
+      name: 'register_scoring_pipeline'
+      displayName: "register scoring pipeline"
