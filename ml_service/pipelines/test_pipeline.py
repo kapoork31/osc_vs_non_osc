@@ -43,7 +43,7 @@ def main():
         if(p.name == pipeline_name):
             pipeline_exists = True
 
-    if(pipeline_exists):
+    if(not pipeline_exists):
 
         environment = get_environment(
             aml_workspace, e.aml_env_name, create_new=e.rebuild_env)
