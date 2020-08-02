@@ -78,7 +78,7 @@ def main():
             path_on_datastore=e.scoring_script_input_meta)
 
         scoring_step = PythonScriptStep(
-            script_name=e.scoring_pipeline_name,
+            script_name=e.scoring_script_path,
             inputs=[input_dir_raw, input_dir_meta, output_dir],
             compute_target=aml_compute,
             source_directory=e.sources_directory_train,
