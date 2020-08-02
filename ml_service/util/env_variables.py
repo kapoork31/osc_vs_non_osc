@@ -27,6 +27,8 @@ class Env:
     max_nodes: int = int(os.environ.get("AML_CLUSTER_MAX_NODES", 4))
     build_id: Optional[str] = os.environ.get("BUILD_BUILDID")
     pipeline_name: Optional[str] = os.environ.get("TRAINING_PIPELINE_NAME")
+    scoring_pipeline_name: Optional[str] = os.environ.get(
+        "SCORING_PIPELINE_NAME")
     sources_directory_train: Optional[str] = os.environ.get(
         "SOURCES_DIR_TRAIN")
     train_script_path: Optional[str] = os.environ.get("TRAIN_SCRIPT_PATH")
@@ -34,6 +36,12 @@ class Env:
         "EVALUATE_SCRIPT_PATH")
     register_script_path: Optional[str] = os.environ.get(
         "REGISTER_SCRIPT_PATH")
+    scoring_script_output_path: Optional[str] = os.environ.get(
+        "SCORING_SCRIPT_OUTPUT_PATH")
+    scoring_script_input_meta: Optional[str] = os.environ.get(
+        "SCORING_SCRIPT_INPUT_META")
+    scoring_script_input_raw: Optional[str] = os.environ.get(
+        "SCORING_SCRIPT_INPUT_RAW")
     model_name: Optional[str] = os.environ.get("MODEL_NAME")
     autoencoder_name: Optional[str] = os.environ.get("AUTOENCODER_NAME")
     experiment_name: Optional[str] = os.environ.get("EXPERIMENT_NAME")
