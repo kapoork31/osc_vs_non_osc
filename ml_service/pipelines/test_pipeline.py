@@ -6,6 +6,7 @@ from azureml.pipeline.core import Pipeline, PublishedPipeline
 from azureml.pipeline.steps import PythonScriptStep
 from ml_service.util.manage_environment import get_environment
 from azureml.data.data_reference import DataReference
+from azureml.pipeline.core.schedule import Schedule
 
 
 def main():
@@ -93,17 +94,33 @@ def main():
         )
         steps = [scoring_step]
         pipeline1 = Pipeline(workspace=aml_workspace, steps=[steps])
-        # pipeline_run1 =
-        Experiment(
+        pipeline_run1 = Experiment(
             aml_workspace,
             'test_dataset_in_pipeline').submit(pipeline1)
 
-        # published_pipeline = pipeline_run1.publish_pipeline(
-        #    name=pipeline_scoring_name,
-        #    description="prediction pipeline",
-        #    version="0.1",
-        #    continue_on_step_failure=False
-        # )
+        status = pipeline_run1.get_status()
+        if(status != 'Failed'):
+            published_pipeline = pipeline_run1.publish_pipeline(
+                name=e.scoring_pipeline_name,
+                description="scoring pipeline",
+                version="0.1",
+                continue_on_step_failure=False
+            )
+
+            Schedule.create(
+                workspace=aml_workspace,
+                name="schedule_run_on_data_to_predict_change",
+                pipeline_id=published_pipeline.id,
+                experiment_name='Schedule_Run',
+                datastore=def_blob_store,
+                wait_for_provisioning=False,
+                description="Schedule Run",
+                polling_interval=5,
+                path_on_datastore=e.scoring_script_input_meta
+            )
+
+        else:
+            print('run failed')
 
 
 if __name__ == '__main__':
