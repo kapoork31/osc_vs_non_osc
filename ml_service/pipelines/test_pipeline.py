@@ -76,9 +76,7 @@ def main():
             data_reference_name="input_data_meta",
             path_on_datastore=e.scoring_script_input_meta)
 
-        print(output_dir)
-        print(input_dir_raw)
-        print(input_dir_meta)
+        print(e.scoring_script_output_path)
 
 
 if __name__ == '__main__':
