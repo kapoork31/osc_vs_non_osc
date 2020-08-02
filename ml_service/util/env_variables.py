@@ -36,6 +36,9 @@ class Env:
         "EVALUATE_SCRIPT_PATH")
     register_script_path: Optional[str] = os.environ.get(
         "REGISTER_SCRIPT_PATH")
+    scoring_script_path: Optional[str] = os.environ.get(
+        "SCORING_SCRIPT_PATH"
+    )
     scoring_script_output_path: Optional[str] = os.environ.get(
         "SCORING_SCRIPT_OUTPUT_PATH")
     scoring_script_input_meta: Optional[str] = os.environ.get(

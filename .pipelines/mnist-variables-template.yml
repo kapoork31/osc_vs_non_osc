@@ -17,6 +17,8 @@ variables:
     # The path to the model scoring script relative to SOURCES_DIR_TRAIN
   - name: SCORE_SCRIPT
     value: scoring/score.py
+  - name: SCORING_SCRIPT_PATH
+    value: scoring/score_pipeline_script.py
 
   # Azure ML Variables
   - name: EXPERIMENT_NAME
