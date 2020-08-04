@@ -151,6 +151,7 @@ if(os.path.exists(input_dir_meta) and
                     header=False
                 )
             else:  # else than create
+                os.makedirs(output_dir, exist_ok=True)
                 meta_df.to_csv(meta_processed_path, mode='w', index=False)
 
             if(file_processed_exists):  # if processed file exists then append
