@@ -133,13 +133,13 @@ if(os.path.exists(input_dir_meta) and
                 )
                 meta_df = meta_df.append(df)
 
-            os.remove(input_dir_raw + '\\' + npy)
+            os.remove(input_dir_raw + '/' + npy)
             # deleted the npy file
             print('deleted npy data')
             file_meta_dict = {'filename': [npy]}
             file_meta_df = pd.DataFrame(file_meta_dict, columns=['filename'])
 
-            meta_processed_path = output_dir + '\\' + 'processed.csv'
+            meta_processed_path = output_dir + '/' + 'processed.csv'
             processed_exists = os.path.exists(meta_processed_path)
             # if the meta processed file exists
 
