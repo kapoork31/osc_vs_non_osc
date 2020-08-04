@@ -63,7 +63,6 @@ if(os.path.exists(input_dir_meta) and
     # all files in input raw dir
     npy_files = [s for s in allFiles if "npy" in s]
     # all npy files in the input directory
-    print(os.listdir(output_dir))
 
     if(len(npy_files) > 0):  # if there is minimumm 1 npy file
 
