@@ -101,8 +101,9 @@ def main():
             e.experiment_name).submit(pipeline1)
         pipeline_run1.wait_for_completion()
         status = pipeline_run1.get_status()
+        print(status)
 
-        if(status == 'Completed'):
+        if(status == 'Finished'):
             published_pipeline = pipeline_run1.publish_pipeline(
                 name=e.scoring_pipeline_name,
                 description="scoring pipeline",
