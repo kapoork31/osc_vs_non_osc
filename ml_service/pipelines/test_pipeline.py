@@ -124,6 +124,8 @@ def main():
 
         else:
             print('run failed')
+    else:
+        print('pipeline already exists')
 
 
 if __name__ == '__main__':
