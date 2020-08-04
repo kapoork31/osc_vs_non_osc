@@ -19,6 +19,12 @@ parser.add_argument(
     default="mnist_model.h5",
 )
 parser.add_argument(
+    "--model_name_autoencoder",
+    type=str,
+    help="Name of the Model",
+    default="data_drift_model.h5",
+)
+parser.add_argument(
     "--output_dir",
     type=str,
     help="output_dir"
@@ -39,11 +45,14 @@ output_dir = args.output_dir
 input_dir_meta = args.input_dir_meta
 input_dir_raw = args.input_dir_raw
 
+run = Run.get_context()
+
 if(os.path.exists(input_dir_meta) and
         os.path.exists(input_dir_raw)):  # if both input dirs exist
 
     # print("Argument [model_name]: %s" % args.model_name)
     model_name = args.model_name
+    autoencoder_name = args.model_name_autoencoder
 
     file_meta_processed_path = output_dir + '\\' + 'file_processed.csv'
     # filepath of processed filenames
@@ -94,6 +103,17 @@ if(os.path.exists(input_dir_meta) and
                 _workspace=ws
             )
             model = load_model(model_root)
+
+            autoencoder_root = Model.get_model_path(
+                autoencoder_name,
+                version=None,
+                _workspace=ws
+            )
+            autoencoder = load_model(autoencoder_root)
+            decoded_imgs = autoencoder.predict(data_to_predict)
+            x_test_loss = autoencoder.evaluate(data_to_predict, decoded_imgs)
+            run.log('autoencoder test loss', x_test_loss)
+            run.parent.log('autoencoder test loss', x_test_loss)
 
             meta_df = pd.DataFrame()
             unique_sessions = meta_data.sessionId.unique()
@@ -151,3 +171,5 @@ if(os.path.exists(input_dir_meta) and
         print('no data to predict exists')
 else:
     print('no input folder exists')
+
+run.complete()

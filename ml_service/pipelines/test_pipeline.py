@@ -13,6 +13,7 @@ def main():
     # run = Run.get_context()
     e = Env()
     model_name = e.model_name
+    autoencoder_name = e.autoencoder_name
     # Get Azure machine learning workspace
     aml_workspace = Workspace.get(
         name=e.workspace_name,
@@ -85,6 +86,7 @@ def main():
             source_directory=e.sources_directory_train,
             arguments=[
                 "--model_name", model_name,
+                "--model_name_autoencoder", autoencoder_name,
                 "--input_dir_raw", input_dir_raw,
                 "--input_dir_meta", input_dir_meta,
                 "--output_dir", output_dir,
@@ -96,10 +98,11 @@ def main():
         pipeline1 = Pipeline(workspace=aml_workspace, steps=[steps])
         pipeline_run1 = Experiment(
             aml_workspace,
-            'test_dataset_in_pipeline').submit(pipeline1)
-
+            e.experiment_name).submit(pipeline1)
+        pipeline_run1.wait_for_completion()
         status = pipeline_run1.get_status()
-        if(status != 'Failed'):
+
+        if(status == 'Completed'):
             published_pipeline = pipeline_run1.publish_pipeline(
                 name=e.scoring_pipeline_name,
                 description="scoring pipeline",
