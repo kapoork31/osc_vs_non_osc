@@ -54,7 +54,7 @@ if(os.path.exists(input_dir_meta) and
     model_name = args.model_name
     autoencoder_name = args.model_name_autoencoder
 
-    file_meta_processed_path = output_dir + '\\' + 'file_processed.csv'
+    file_meta_processed_path = output_dir + '/' + 'file_processed.csv'
     # filepath of processed filenames
     file_processed_exists = os.path.exists(file_meta_processed_path)
     # boolean if processed filenames file exists
@@ -63,6 +63,7 @@ if(os.path.exists(input_dir_meta) and
     # all files in input raw dir
     npy_files = [s for s in allFiles if "npy" in s]
     # all npy files in the input directory
+    print(os.listdir(output_dir))
 
     if(len(npy_files) > 0):  # if there is minimumm 1 npy file
 
@@ -81,10 +82,10 @@ if(os.path.exists(input_dir_meta) and
 
         if(to_execute):  # then execute
 
-            meta_data = pd.read_csv(input_dir_meta + '\\' +
+            meta_data = pd.read_csv(input_dir_meta + '/' +
                                     'test_data_to_predict_meta.csv'
                                     )
-            data_to_predict = np.load(input_dir_raw + '\\' + npy)
+            data_to_predict = np.load(input_dir_raw + '/' + npy)
             width = np.shape(data_to_predict[0])[1]
             height = np.shape(data_to_predict[0])[0]
             print(np.shape(data_to_predict))
