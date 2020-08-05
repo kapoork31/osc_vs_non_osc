@@ -1,5 +1,6 @@
 import numpy as np
-from tensorflow.keras.layers import Input, Conv2D, UpSampling2D, MaxPooling2D
+from tensorflow.keras.layers import (
+    Input, Conv2D, UpSampling2D, MaxPooling2D, Cropping2D)
 from tensorflow.keras.models import Model
 
 
@@ -18,8 +19,8 @@ def train_autoencoder(x_train, x_test, n_epochs, batch_size):
     x = UpSampling2D((2, 2))(x)
     x = Conv2D(32, (3, 3), activation='relu', padding='same')(x)
     x = UpSampling2D((2, 2))(x)
-    decoded = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
-    # decoded = Cropping2D(cropping=((3, 0), (2, 0)), data_format=None)(x)
+    x = Conv2D(1, (3, 3), activation='sigmoid', padding='same')(x)
+    decoded = Cropping2D(cropping=((3, 0), (2, 0)), data_format=None)(x)
     # at this point the representation is (60,88,1)
 
     autoencoder = Model(input_img, decoded)

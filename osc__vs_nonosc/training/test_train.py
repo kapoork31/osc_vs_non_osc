@@ -21,13 +21,13 @@ def test_train_model():
     model = train_model(
                         x_train,
                         y_train,
-                        x_test, y_test,
+                        x_test,
+                        y_test,
                         e.no_of_epochs,
                         e.batch_size
                         )
     preds = model.predict(x_test[:1])
-    # np.testing.assert_almost_equal(preds[0], [0.5, 0.5])
-    assert preds[0] > 0
+    np.testing.assert_almost_equal(preds[0], [0.5, 0.5])
 
 
 def test_get_model_metrics():
@@ -51,8 +51,7 @@ def test_get_model_metrics():
                         )
     metrics = get_model_metrics(model, x_test, y_test)
     val_loss = metrics[0]
-    # np.testing.assert_almost_equal(val_loss, 0)
-    assert val_loss > 0
+    np.testing.assert_almost_equal(val_loss, 0)
 
 
 def test_train_autoencoder():
@@ -85,4 +84,4 @@ def test_autoencoder_get_model_metrics():
     autoencoder = autoencoder_and_history[0]
     history = autoencoder_and_history[1]
     test_loss = autoencoder_get_model_metrics(autoencoder, history, x_test)
-    assert test_loss[1] > 0
+    assert test_loss[1] >= 0
