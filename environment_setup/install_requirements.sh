@@ -26,6 +26,6 @@
 
 set -eux
 
-conda env create -f mnist/ci_dependencies.yml
+conda env create -f osc__vs_nonosc/ci_dependencies.yml
 
 conda activate mlopspython_ci

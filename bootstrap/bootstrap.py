@@ -26,7 +26,7 @@ class Helper:
 
     def rename_files(self):
         # Rename all files starting with diabetes_regression with project name
-        strtoreplace = "diabetes_regression"
+        strtoreplace = "mnist"
         dirs = [".pipelines", r"ml_service/pipelines"]
         for dir in dirs:
             normDir = os.path.normpath(dir)
@@ -40,7 +40,7 @@ class Helper:
                     os.rename(src, dst)
 
     def rename_dir(self):
-        dir = "diabetes_regression"
+        dir = "mnist"
         src = os.path.join(self._project_directory, dir)
         for path, subdirs, files in os.walk(src):
             for name in files:
@@ -53,7 +53,7 @@ class Helper:
 
     def delete_dir(self):
         # Delete unwanted directories
-        dirs = ["docs", r"diabetes_regression"]
+        dirs = ["docs", r"mnist"]
         if (platform.system() == "Windows"):
             cmd = 'rmdir /S /Q "{}"'
         else:
@@ -84,22 +84,22 @@ def replace_project_name(project_dir, project_name, rename_name):
     files = [r".env.example",
             r".pipelines/code-quality-template.yml",
             r".pipelines/pr.yml",
-            r".pipelines/diabetes_regression-ci.yml",
+            r".pipelines/mnist-ci.yml",
             r".pipelines/abtest.yml",
-            r".pipelines/diabetes_regression-ci-image.yml",
-            r".pipelines/diabetes_regression-get-model-version-template.yml",  # NOQA: E501
-            r".pipelines/diabetes_regression-variables-template.yml",
+            r".pipelines/mnist-ci-image.yml",
+            r".pipelines/mnist-get-model-version-template.yml",  # NOQA: E501
+            r".pipelines/mnist-variables-template.yml",
             r"environment_setup/Dockerfile",
             r"environment_setup/install_requirements.sh",
-            r"ml_service/pipelines/diabetes_regression_build_train_pipeline_with_r_on_dbricks.py",  # NOQA: E501
-            r"ml_service/pipelines/diabetes_regression_build_train_pipeline_with_r.py",  # NOQA: E501
-            r"ml_service/pipelines/diabetes_regression_build_train_pipeline.py",  # NOQA: E501
-            r"ml_service/pipelines/diabetes_regression_verify_train_pipeline.py",  # NOQA: E501
+            r"ml_service/pipelines/mnist_build_train_pipeline_with_r_on_dbricks.py",  # NOQA: E501
+            r"ml_service/pipelines/mnist_build_train_pipeline_with_r.py",  # NOQA: E501
+            r"ml_service/pipelines/mnist_build_train_pipeline.py",  # NOQA: E501
+            r"ml_service/pipelines/mnist_verify_train_pipeline.py",  # NOQA: E501
             r"ml_service/util/create_scoring_image.py",
-            r"diabetes_regression/conda_dependencies.yml",
-            r"diabetes_regression/evaluate/evaluate_model.py",
-            r"diabetes_regression/register/register_model.py",
-            r"diabetes_regression/training/test_train.py"]
+            r"mnist/conda_dependencies.yml",
+            r"mnist/evaluate/evaluate_model.py",
+            r"mnist/register/register_model.py",
+            r"mnist/training/test_train.py"]
 
     for file in files:
         path = os.path.join(project_dir, os.path.normpath(file))
@@ -136,8 +136,8 @@ def main(args):
         helper.validate_args()
         helper.clean_dir()
 
-        replace_project_name(project_directory, project_name, "diabetes_regression")  # NOQA: E501
-        replace_project_name(project_directory, project_name, "diabetes")
+        replace_project_name(project_directory, project_name, "mnist")  # NOQA: E501
+        replace_project_name(project_directory, project_name, "mnist")
 
         helper.rename_files()
         helper.rename_dir()

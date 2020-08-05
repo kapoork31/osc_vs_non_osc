@@ -65,7 +65,7 @@ def main():
         create_sample_data_csv()
 
         # Use a CSV to read in the data set.
-        file_name = 'mnist.csv'
+        file_name = 'osc__vs_nonosc.csv'
 
         if (not os.path.exists(file_name)):
             raise Exception("Could not find CSV dataset at \"%s\". If you have bootstrapped your project, you will need to provide a CSV." % file_name)  # NOQA: E501
@@ -86,7 +86,7 @@ def main():
         dataset = dataset.register(
             workspace=aml_workspace,
             name=dataset_name,
-            description='mnist training data',
+            description='osc__vs_nonosc training data',
             tags={'format': 'CSV'},
             create_new_version=True)
 

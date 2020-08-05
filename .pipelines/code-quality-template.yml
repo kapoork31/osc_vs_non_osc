@@ -11,7 +11,7 @@ steps:
   displayName: 'Run lint tests'
 
 - script: |   
-   python -m pytest . --cov=mnist --cov-report=html --cov-report=xml --junitxml=unit-testresults.xml
+   python -m pytest . --cov=osc__vs_nonosc --cov-report=html --cov-report=xml --junitxml=unit-testresults.xml
   condition: succeededOrFailed()
   displayName: 'Run unit tests'
 

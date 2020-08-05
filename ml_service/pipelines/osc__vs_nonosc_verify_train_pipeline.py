@@ -3,7 +3,7 @@ import sys
 import os
 from azureml.core import Run, Experiment, Workspace
 from ml_service.util.env_variables import Env
-from mnist.util.model_helper import get_latest_model
+from osc__vs_nonosc.util.model_helper import get_latest_model
 from azureml.pipeline.core import PublishedPipeline
 
 
@@ -16,7 +16,7 @@ def main():
         load_dotenv()
         sources_dir = os.environ.get("SOURCES_DIR_TRAIN")
         if (sources_dir is None):
-            sources_dir = 'mnist'
+            sources_dir = 'osc__vs_nonosc'
         workspace_name = os.environ.get("WORKSPACE_NAME")
         experiment_name = os.environ.get("EXPERIMENT_NAME")
         resource_group = os.environ.get("RESOURCE_GROUP")

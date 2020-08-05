@@ -71,7 +71,7 @@ def main():
         "--model_name",
         type=str,
         help="Name of the Model",
-        default="mnist_model.h5",
+        default="osc__vs_nonosc_model.h5",
     )
 
     parser.add_argument(
@@ -238,7 +238,7 @@ def register_aml_model(
     build_uri=None
 ):
     try:
-        tagsValue = {"area": "mnist",
+        tagsValue = {"area": "osc__vs_nonosc",
                      "run_id": run_id,
                      "experiment_name": exp.name}
         tagsValue.update(model_tags)

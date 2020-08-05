@@ -29,7 +29,7 @@ def main():
 
     # Create a reusable Azure ML environment
     # Make sure to include `r-essentials'
-    #   in mnist/conda_dependencies.yml
+    #   in osc__vs_nonosc/conda_dependencies.yml
     environment = get_environment(
         aml_workspace, e.aml_env_name, create_new=e.rebuild_env)  # NOQA: E501
     run_config = RunConfiguration()
@@ -39,7 +39,7 @@ def main():
         name="Train Model",
         script_name="train_with_r.py",
         compute_target=aml_compute,
-        source_directory="mnist/training/R",
+        source_directory="osc__vs_nonosc/training/R",
         runconfig=run_config,
         allow_reuse=False,
     )
