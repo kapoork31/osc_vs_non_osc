@@ -31,6 +31,8 @@ from train import train_model, get_model_metrics
 from train_data_drift import train_autoencoder, autoencoder_get_model_metrics
 import numpy as np
 from util.model_helper import get_latest_model
+import tensorflow.keras as k
+from sklearn.model_selection import train_test_split
 
 
 def register_dataset(
@@ -145,15 +147,25 @@ def main():
     dataset2 = Dataset.get_by_name(run.experiment.workspace, dataset_name)
     mount_context = dataset2.mount()
     mount_context.start()  # this will mount the file streams
-    data = np.load(data_folder + '/image_data_by_person_all4_no_filter_2500_20prc.npy')
-    labels = np.load(data_folder + '/labels_by_person_all4_no_filter_2500_20prc.npy')
+    data = np.load(
+        mount_context.mount_point +
+        '/image_data_by_person_all4_no_filter_2500_20prc.npy')
+    labels = np.load(
+        mount_context.mount_point +
+        '/labels_by_person_all4_no_filter_2500_20prc.npy')
     mount_context.stop()  # this will unmount the file streams
 
     labelSubset = labels
     dataSubset = data
-    dataSubset = dataSubset.reshape(len(dataSubset),57,86,1)
+    dataSubset = dataSubset.reshape(len(dataSubset), 57, 86, 1)
     labelSubset = k.utils.to_categorical(labelSubset)
-    x_train, x_test, y_train, y_test = train_test_split(dataSubset, labelSubset, test_size=0.2,shuffle = True,stratify = labelSubset)
+    x_train, x_test, y_train, y_test = train_test_split(
+                                                        dataSubset,
+                                                        labelSubset,
+                                                        test_size=0.2,
+                                                        shuffle=True,
+                                                        stratify=labelSubset
+                                                        )
 
     # Train the model
     model = train_model(x_train, y_train, x_test, y_test)

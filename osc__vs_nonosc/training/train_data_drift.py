@@ -3,7 +3,7 @@ from tensorflow.keras.layers import Input, Conv2D, UpSampling2D, MaxPooling2D
 from tensorflow.keras.models import Model
 
 
-def train_autoencoder(x_train, x_test):
+def train_autoencoder(x_train, x_test, n_epochs, batch_size):
     input_img = Input(shape=np.shape(x_train[0]))
     # adapt this if using `channels_first` image data format
 
@@ -32,8 +32,8 @@ def train_autoencoder(x_train, x_test):
     history = autoencoder.fit(
                               x_train,
                               x_train,
-                              epochs=25,
-                              batch_size=8,
+                              epochs=n_epochs,
+                              batch_size=batch_size,
                               shuffle=True,
                               verbose=0,
                               validation_data=(x_test, x_test)

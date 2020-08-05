@@ -39,14 +39,18 @@ variables:
   - name: AUTOENCODER_NAME
     value: osc_vs_non_osc_data_drift_model.h5
   - name: SCORING_SCRIPT_OUTPUT_PATH
-    value: output_data_predicted_temp  
+    value: output_data_predicted  
   - name: SCORING_SCRIPT_INPUT_META
-    value: data_to_predict_meta_temp
+    value: data_to_predict_meta
   - name: SCORING_SCRIPT_INPUT_RAW
-    value: data_to_predict_raw_temp
+    value: data_to_predict_raw
   - name: TRAINING_EPOCHS
     value: 10
   - name: TRAINING_BATCH_SIZE
+    value: 32
+  - name: AUTOENCODER_EPOCHS
+    value: 10
+  - name: AUTOENCODER_BATCH_SIZE
     value: 32
   # AML Compute Cluster Config
   - name: AML_ENV_NAME
