@@ -126,18 +126,25 @@ if(os.path.exists(input_dir_meta) and
                 y_pred = (pred > 0.5).astype(int)
                 res = y_pred.argmax(axis=1).tolist()
                 sessionDevice = most_frequent(res)
-                devices_data = {'device': [sessionDevice], 'sessionId': [us]}
+                devices_data = {'device': [sessionDevice],
+                                'sessionId': [us],
+                                'filename': [npy]}
+
                 df = pd.DataFrame(
                     devices_data,
-                    columns=['device', 'sessionId']
+                    columns=['device', 'sessionId', 'filename']
                 )
                 meta_df = meta_df.append(df)
 
             os.remove(input_dir_raw + '/' + npy)
             # deleted the npy file
             print('deleted npy data')
-            file_meta_dict = {'filename': [npy]}
-            file_meta_df = pd.DataFrame(file_meta_dict, columns=['filename'])
+            file_meta_dict = {'filename': [npy],
+                              'reconstruction_loss': [x_test_loss]}
+            file_meta_df = pd.DataFrame(
+                file_meta_dict,
+                columns=['filename', 'reconstruction_loss']
+            )
 
             meta_processed_path = output_dir + '/' + 'processed.csv'
             processed_exists = os.path.exists(meta_processed_path)
