@@ -47,12 +47,12 @@ class Env:
         "SCORING_SCRIPT_INPUT_RAW")
     model_name: Optional[str] = os.environ.get("MODEL_NAME")
     autoencoder_name: Optional[str] = os.environ.get("AUTOENCODER_NAME")
-    no_of_epochs: Optional[int] = os.environ.get("TRAINING_EPOCHS")
-    batch_size: Optional[int] = os.environ.get("TRAINING_BATCH_SIZE")
-    autoencoder_no_of_epochs: Optional[int] = os.environ.get(
-        "AUTOENCODER_EPOCHS")
-    autoencoder_batch_size: Optional[int] = os.environ.get(
-        "AUTOENCODER_BATCH_SIZE")
+    no_of_epochs: int = int(os.environ.get("TRAINING_EPOCHS"))
+    batch_size: int = int(os.environ.get("TRAINING_BATCH_SIZE"))
+    autoencoder_no_of_epochs: int = int(os.environ.get(
+        "AUTOENCODER_EPOCHS"))
+    autoencoder_batch_size: int = int(os.environ.get(
+        "AUTOENCODER_BATCH_SIZE"))
     experiment_name: Optional[str] = os.environ.get("EXPERIMENT_NAME")
     model_version: Optional[str] = os.environ.get('MODEL_VERSION')
     image_name: Optional[str] = os.environ.get('IMAGE_NAME')
