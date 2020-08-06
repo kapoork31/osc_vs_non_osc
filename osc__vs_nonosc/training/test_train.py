@@ -27,6 +27,7 @@ def test_train_model():
                         e.batch_size
                         )
     preds = model.predict(x_test[:1])
+    print(preds[0])
     np.testing.assert_almost_equal(preds[0], [0.5, 0.5])
 
 
