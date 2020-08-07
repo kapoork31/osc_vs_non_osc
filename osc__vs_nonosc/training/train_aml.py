@@ -33,9 +33,6 @@ import numpy as np
 from util.model_helper import get_latest_model
 import tensorflow.keras as k
 from sklearn.model_selection import train_test_split
-from ml_service.util.env_variables import Env
-
-e = Env()
 
 
 def register_dataset(
@@ -102,6 +99,26 @@ def main():
               to always get the desired dataset version\
               rather than the one used while the pipeline creation")
     )
+    parser.add_argument(
+        "--n_epochs",
+        type=int,
+        help=("n_epochs")
+    )
+    parser.add_argument(
+        "--batch_size",
+        type=int,
+        help=("batch size")
+    )
+    parser.add_argument(
+        "--autoencoder_n_epochs",
+        type=int,
+        help=("n_epochs")
+    )
+    parser.add_argument(
+        "--autoencoder_batch_size",
+        type=int,
+        help=("batch size")
+    )
 
     args = parser.parse_args()
 
@@ -119,6 +136,10 @@ def main():
     dataset_version = args.dataset_version
     data_file_path = args.data_file_path
     dataset_name = args.dataset_name
+    n_epochs = args.n_epochs
+    batch_size = args.batch_size
+    autoencoder_n_epochs = args.autoencoder_n_epochs
+    autoencoder_batch_size = args.autoencoder_batch_size
 
     run = Run.get_context()
 
@@ -176,8 +197,8 @@ def main():
         y_train,
         x_test,
         y_test,
-        e.no_of_epochs,
-        e.batch_size
+        n_epochs,
+        batch_size
         )
 
     # Evaluate and log the metrics returned from the train function
@@ -194,7 +215,12 @@ def main():
 
     if (autoencoder is None):
 
-        autoencoder_and_history = train_autoencoder(x_train, x_train)
+        autoencoder_and_history = train_autoencoder(
+            x_train,
+            x_train,
+            autoencoder_n_epochs,
+            autoencoder_batch_size
+            )
         autoencoder = autoencoder_and_history[0]
         history = autoencoder_and_history[1]
         test_loss = autoencoder_get_model_metrics(autoencoder, history, x_test)
