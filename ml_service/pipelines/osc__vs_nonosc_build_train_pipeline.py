@@ -117,6 +117,7 @@ def main():
             "--dataset_version", dataset_version_param,
             "--data_file_path", data_file_path_param,
             "--caller_run_id", caller_run_id_param,
+            "--dataset_name", dataset_name,
             "--n_epochs", e.no_of_epochs,
             "--batch_size", e.batch_size,
             "--autoencoder_n_epochs", e.autoencoder_no_of_epochs,
