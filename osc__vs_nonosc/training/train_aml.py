@@ -33,6 +33,9 @@ import numpy as np
 from util.model_helper import get_latest_model
 import tensorflow.keras as k
 from sklearn.model_selection import train_test_split
+from ml_service.util.env_variables import Env
+
+e = Env()
 
 
 def register_dataset(
@@ -168,7 +171,14 @@ def main():
                                                         )
 
     # Train the model
-    model = train_model(x_train, y_train, x_test, y_test)
+    model = train_model(
+        x_train,
+        y_train,
+        x_test,
+        y_test,
+        e.no_of_epochs,
+        e.batch_size
+        )
 
     # Evaluate and log the metrics returned from the train function
     metrics = get_model_metrics(model, x_test, y_test)
