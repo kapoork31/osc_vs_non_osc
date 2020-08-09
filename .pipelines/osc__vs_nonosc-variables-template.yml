@@ -37,7 +37,7 @@ variables:
   - name: MODEL_NAME
     value: osc__vs_nonosc.h5
   - name: AUTOENCODER_NAME
-    value: osc_vs_non_osc_data_drift_model.h5
+    value: os_data_drift_model.h5
   - name: SCORING_SCRIPT_OUTPUT_PATH
     value: output_data_predicted  
   - name: SCORING_SCRIPT_INPUT_META
