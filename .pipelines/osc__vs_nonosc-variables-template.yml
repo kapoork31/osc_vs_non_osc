@@ -56,7 +56,7 @@ variables:
   - name: AML_ENV_NAME
     value: osc__vs_nonosc_training_env
   - name: AML_COMPUTE_CLUSTER_CPU_SKU
-    value:  
+    value: Standard_DS12_v2
   - name: AML_COMPUTE_CLUSTER_NAME
     value: larger-cluster
   - name: AML_CLUSTER_MIN_NODES
