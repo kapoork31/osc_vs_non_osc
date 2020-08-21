@@ -25,6 +25,8 @@ variables:
     value: mlopspython
   - name: DATASET_NAME
     value: fizzyo_breath_data
+  - name: DATASET_NAME_LABEL
+    value: fizzyo_breath_data_labels
   # Uncomment DATASTORE_NAME if you have configured non default datastore to point to your data   
   # - name: DATASTORE_NAME
   #   value: datablobstore
@@ -45,11 +47,11 @@ variables:
   - name: SCORING_SCRIPT_INPUT_RAW
     value: data_to_predict_raw
   - name: TRAINING_EPOCHS
-    value: 10
+    value: 2
   - name: TRAINING_BATCH_SIZE
     value: 32
   - name: AUTOENCODER_EPOCHS
-    value: 10
+    value: 2
   - name: AUTOENCODER_BATCH_SIZE
     value: 32
   # AML Compute Cluster Config

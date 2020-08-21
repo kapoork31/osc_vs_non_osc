@@ -33,6 +33,7 @@ import numpy as np
 from util.model_helper import get_latest_model
 import tensorflow.keras as k
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 
 def register_dataset(
@@ -100,6 +101,13 @@ def main():
               rather than the one used while the pipeline creation")
     )
     parser.add_argument(
+        "--label_dataset_name",
+        type=str,
+        help=("Dataset name. Dataset must be passed by name\
+              to always get the desired dataset version\
+              rather than the one used while the pipeline creation")
+    )
+    parser.add_argument(
         "--n_epochs",
         type=int,
         help=("n_epochs")
@@ -129,6 +137,7 @@ def main():
     print("Argument [data_file_path]: %s" % args.data_file_path)
     print("Argument [caller_run_id]: %s" % args.caller_run_id)
     print("Argument [dataset_name]: %s" % args.dataset_name)
+    print("Argument [label_dataset_name]: %s" % args.label_dataset_name)
 
     model_name = args.model_name
     autoencoder_name = args.autoencoder_name
@@ -136,6 +145,7 @@ def main():
     dataset_version = args.dataset_version
     data_file_path = args.data_file_path
     dataset_name = args.dataset_name
+    label_dataset_name = args.label_dataset_name
     n_epochs = args.n_epochs
     batch_size = args.batch_size
     autoencoder_n_epochs = args.autoencoder_n_epochs
@@ -174,6 +184,14 @@ def main():
     data = np.load(
         mount_context.mount_point +
         '/image_data_by_person_all4_no_filter_2500_20prc.npy')
+    mount_context.stop()  # this will unmount the file streams
+
+    label_dataset = Dataset.get_by_name(
+        run.experiment.workspace,
+        label_dataset_name
+    )
+    mount_context = label_dataset.mount()
+    mount_context.start()  # this will mount the file streams
     labels = np.load(
         mount_context.mount_point +
         '/labels_by_person_all4_no_filter_2500_20prc.npy')
@@ -192,14 +210,17 @@ def main():
                                                         )
 
     # Train the model
-    model = train_model(
+    train_meta_data = train_model(
         x_train,
         y_train,
         x_test,
         y_test,
         n_epochs,
         batch_size
-        )
+        )[0]
+
+    model = train_meta_data[0]
+    hist_train = train_meta_data[1]
 
     # Evaluate and log the metrics returned from the train function
     metrics = get_model_metrics(model, x_test, y_test)
@@ -208,6 +229,35 @@ def main():
     run.parent.log("test loss", metrics[0])
     run.parent.log("test accuracy", metrics[1])
 
+    # plot the graph of training vs accuracy
+    plt.style.use("ggplot")
+    plt.figure()
+    plt.plot(
+        np.arange(0, n_epochs),
+        hist_train.history["loss"],
+        label="train_loss"
+    )
+    plt.plot(
+        np.arange(0, n_epochs),
+        hist_train.history["val_loss"],
+        label="val_loss"
+    )
+    plt.plot(
+        np.arange(0, n_epochs),
+        hist_train.history["accuracy"],
+        label="train_acc"
+    )
+    plt.plot(
+        np.arange(0, n_epochs),
+        hist_train.history["val_accuracy"],
+        label="val_acc"
+    )
+    plt.title("Loss/Accuracy vs Epochs")
+    plt.xlabel("No of Epochs")
+    plt.ylabel("Loss/Accuracy")
+    plt.legend()
+    run.log_image("metrics plot", plot=plt)
+    run.parent.log_image("metrics plot", plot=plt)
     # Pass model file to next step
     os.makedirs(step_output_path, exist_ok=True)
     model_output_path = os.path.join(step_output_path, model_name)
@@ -222,13 +272,36 @@ def main():
             autoencoder_batch_size
             )
         autoencoder = autoencoder_and_history[0]
-        history = autoencoder_and_history[1]
-        test_loss = autoencoder_get_model_metrics(autoencoder, history, x_test)
+        hist_auto = autoencoder_and_history[1]
+        test_loss = autoencoder_get_model_metrics(
+            autoencoder,
+            hist_auto,
+            x_test
+        )
 
         run.log('autoencoder training loss', test_loss[0])
         run.log('autoencoder test loss', test_loss[1])
         run.parent.log('autoencoder training loss', test_loss[0])
         run.parent.log('autoencoder test loss', test_loss[1])
+
+        plt.style.use("ggplot")
+        plt.figure()
+        plt.plot(
+            np.arange(0, autoencoder_n_epochs),
+            hist_auto.history["loss"],
+            label="train_loss"
+        )
+        plt.plot(
+            np.arange(0, autoencoder_n_epochs),
+            hist_auto.history["val_loss"],
+            label="val_loss"
+        )
+        plt.title("Loss/Accuracy vs Epochs")
+        plt.xlabel("No of Epochs")
+        plt.ylabel("Loss/Accuracy")
+        plt.legend()
+        run.log_image("metrics plot", plot=plt)
+        run.parent.log_image("metrics plot", plot=plt)
 
         autencoder_output_path = os.path.join(step_output_path,
                                               autoencoder_name

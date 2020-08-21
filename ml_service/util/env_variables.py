@@ -60,6 +60,7 @@ class Env:
     score_script: Optional[str] = os.environ.get("SCORE_SCRIPT")
     build_uri: Optional[str] = os.environ.get("BUILD_URI")
     dataset_name: Optional[str] = os.environ.get("DATASET_NAME")
+    label_dataset_name: Optional[str] = os.environ.get("DATASET_NAME_LABEL")
     datastore_name: Optional[str] = os.environ.get("DATASTORE_NAME")
     dataset_version: Optional[str] = os.environ.get("DATASET_VERSION")
     run_evaluation: Optional[str] = os.environ.get("RUN_EVALUATION", "true")

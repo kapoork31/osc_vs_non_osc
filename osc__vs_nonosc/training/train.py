@@ -42,7 +42,7 @@ def train_model(x_train, y_train, x_test, y_test, n_epochs, batch_size):
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
-    model.fit(
+    hist = model.fit(
         x_train,
         y_train,
         validation_data=(x_test, y_test),
@@ -50,7 +50,7 @@ def train_model(x_train, y_train, x_test, y_test, n_epochs, batch_size):
         epochs=n_epochs,
         verbose=0
     )
-    return model
+    return (model, hist)
 
 
 def get_model_metrics(model, x_test, y_test):
@@ -65,7 +65,7 @@ def main():
     x_test = np.load('mnist_data/x_test.npy')
     y_test = np.load('mnist_data/y_test.npy')
 
-    model = train_model(x_train, y_train, x_test, y_test)
+    model = train_model(x_train, y_train, x_test, y_test)[0]
 
     # Validate Model on Validation Set
     metrics = get_model_metrics(model, x_test, y_test)
