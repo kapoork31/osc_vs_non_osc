@@ -25,7 +25,7 @@ def test_train_model():
                         y_test,
                         e.no_of_epochs,
                         e.batch_size
-                        )
+                        )[0]
     preds = model.predict(x_test[:1])
     print(preds[0])
     np.testing.assert_almost_equal(preds[0], [0.5, 0.5], decimal=2)
@@ -49,7 +49,7 @@ def test_get_model_metrics():
                         y_test,
                         e.no_of_epochs,
                         e.batch_size
-                        )
+                        )[0]
     metrics = get_model_metrics(model, x_test, y_test)
     val_loss = metrics[0]
     np.testing.assert_almost_equal(val_loss, 0)
