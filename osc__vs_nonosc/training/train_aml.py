@@ -217,7 +217,7 @@ def main():
         y_test,
         n_epochs,
         batch_size
-        )[0]
+        )
 
     model = train_meta_data[0]
     hist_train = train_meta_data[1]
