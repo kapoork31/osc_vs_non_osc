@@ -47,11 +47,11 @@ variables:
   - name: SCORING_SCRIPT_INPUT_RAW
     value: data_to_predict_raw
   - name: TRAINING_EPOCHS
-    value: 2
+    value: 150
   - name: TRAINING_BATCH_SIZE
     value: 32
   - name: AUTOENCODER_EPOCHS
-    value: 2
+    value: 100
   - name: AUTOENCODER_BATCH_SIZE
     value: 32
   # AML Compute Cluster Config
