@@ -10,7 +10,7 @@ pr: none
 
 
 variables:
-- template: mnist-variables-template.yml
+- template: osc__vs_nonosc-variables-template.yml
 - group: devopsforai-aml-vg
 
 pool:
